@@ -29,40 +29,43 @@ Coding Score = (tests passed / total tests) × 100%
 Final Score = Coding Score
 
 To pass, your Final Score must be 60% or higher.
+## Project Structure
 
-Project Structure
+```text
 rpg-guild-management-system/
-│
 ├── pom.xml
 │
 └── src/
     ├── main/
     │   └── java/
-    │       └── za/co/wethinkcode/
-    │           │
-    │           ├── Main.java
-    │           │
-    │           ├── model/
-    │           │   ├── Item.java
-    │           │   ├── Weapon.java
-    │           │   ├── Armor.java
-    │           │   ├── Inventory.java
-    │           │   ├── Player.java
-    │           │   └── Match.java
-    │           │
-    │           └── service/
-    │               ├── GuildSystem.java
-    │               ├── PvPGuildSystem.java
-    │               └── PvEGuildSystem.java
+    │       └── za/
+    │           └── co/
+    │               └── wethinkcode/
+    │                   ├── Main.java
+    │                   │
+    │                   ├── model/
+    │                   │   ├── Item.java
+    │                   │   ├── Weapon.java
+    │                   │   ├── Armor.java
+    │                   │   ├── Inventory.java
+    │                   │   ├── Player.java
+    │                   │   └── Match.java
+    │                   │
+    │                   └── service/
+    │                       ├── GuildSystem.java
+    │                       ├── PvPGuildSystem.java
+    │                       └── PvEGuildSystem.java
     │
     └── test/
         └── java/
-            └── za/co/wethinkcode/
-                ├── ItemTest.java
-                ├── InventoryTest.java
-                ├── PlayerTest.java
-                └── GuildSystemTest.java
-
+            └── za/
+                └── co/
+                    └── wethinkcode/
+                        ├── ItemTest.java
+                        ├── InventoryTest.java
+                        ├── PlayerTest.java
+                        └── GuildSystemTest.java
+```
 As you implement each step, run the full test suite:
 
 mvn clean compile test
