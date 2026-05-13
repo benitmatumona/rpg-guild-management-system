@@ -18,6 +18,7 @@ Time Limit
 3 hours
 
 Assessment Structure
+
 | Component       | Weight | Recommended Time |
 |----------------|--------|------------------|
 | Implementation | 100%   | 3 hours          |
@@ -37,34 +38,30 @@ rpg-guild-management-system/
 └── src/
     ├── main/
     │   └── java/
-    │       └── za/
-    │           └── co/
-    │               └── wethinkcode/
-    │                   │
-    │                   ├── Main.java
-    │                   │
-    │                   ├── model/
-    │                   │   ├── Item.java
-    │                   │   ├── Weapon.java
-    │                   │   ├── Armor.java
-    │                   │   ├── Inventory.java
-    │                   │   ├── Player.java
-    │                   │   └── Match.java
-    │                   │
-    │                   └── service/
-    │                       ├── GuildSystem.java
-    │                       ├── PvPGuildSystem.java
-    │                       └── PvEGuildSystem.java
+    │       └── za/co/wethinkcode/
+    │           │
+    │           ├── Main.java
+    │           │
+    │           ├── model/
+    │           │   ├── Item.java
+    │           │   ├── Weapon.java
+    │           │   ├── Armor.java
+    │           │   ├── Inventory.java
+    │           │   ├── Player.java
+    │           │   └── Match.java
+    │           │
+    │           └── service/
+    │               ├── GuildSystem.java
+    │               ├── PvPGuildSystem.java
+    │               └── PvEGuildSystem.java
     │
     └── test/
         └── java/
-            └── za/
-                └── co/
-                    └── wethinkcode/
-                        ├── ItemTest.java
-                        ├── InventoryTest.java
-                        ├── PlayerTest.java
-                        └── GuildSystemTest.java
+            └── za/co/wethinkcode/
+                ├── ItemTest.java
+                ├── InventoryTest.java
+                ├── PlayerTest.java
+                └── GuildSystemTest.java
 
 As you implement each step, run the full test suite:
 
@@ -80,113 +77,118 @@ File: src/main/java/za/co/wethinkcode/model/Item.java
 
 The Item class is the base class for all items in the system.
 
-| Field | Type | Description |
-|------|------|-------------|
-| id | int | Unique identifier (private) |
-| name | String | Item name (private) |
-| value | int | Item value (private) |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| id | int | private | Unique identifier for the item |
+| name | String | private | Name of the item |
+| value | int | private | Monetary value of the item |
 
 Constructor
-| Signature |
-|----------|
-| Item(int id, String name, int value) |
+| Signature | Access |
+|----------|--------|
+| Item(int id, String name, int value) | public |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| getId() | Returns item id |
-| getName() | Returns item name |
-| getValue() | Returns item value |
-| updateValue(int newValue) | Updates value (throws IllegalArgumentException if negative) |
-| itemType() | Abstract method returning item type |
-| toString() | Returns [Type] Name (ID: X, Value: Y) |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| getId() | int | public | Returns item id |
+| getName() | String | public | Returns item name |
+| getValue() | int | public | Returns item value |
+| updateValue(int newValue) | void | public | Updates value (throws IllegalArgumentException if negative) |
+| itemType() | String | public abstract | Returns item type |
+| toString() | String | public | Returns [Type] Name (ID: X, Value: Y) |
 
 Step 2 — Implement Weapon
 File: src/main/java/za/co/wethinkcode/model/Weapon.java
 
-Weapon is a type of Item with damage capability.
+Weapon is a specialized item with damage.
 
-| Field | Type | Description |
-|------|------|-------------|
-| damage | int | Weapon damage |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| damage | int | private | Weapon damage |
 
 Constructor
-| Signature |
-|----------|
-| Weapon(int id, String name, int value, int damage) |
+| Signature | Access |
+|----------|--------|
+| Weapon(int id, String name, int value, int damage) | public |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| getDamage() | Returns damage |
-| upgradeDamage(int bonusDamage) | Increases damage (throws error if negative) |
-| itemType() | Returns "Weapon" |
-| toString() | [Weapon] Name (ID: X, Value: Y, Damage: Z) |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| getDamage() | int | public | Returns damage |
+| upgradeDamage(int bonusDamage) | void | public | Increases damage (throws IllegalArgumentException if negative) |
+| itemType() | String | public | Returns "Weapon" |
+| toString() | String | public | Returns [Weapon] Name (ID: X, Value: Y, Damage: Z) |
 
 Step 3 — Implement Armor
 File: src/main/java/za/co/wethinkcode/model/Armor.java
 
-Armor provides defensive stats.
+Armor is a defensive item.
 
-| Field | Type | Description |
-|------|------|-------------|
-| defense | int | Defense value |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| defense | int | private | Armor defense value |
 
 Constructor
-| Signature |
-|----------|
-| Armor(int id, String name, int value, int defense) |
+| Signature | Access |
+|----------|--------|
+| Armor(int id, String name, int value, int defense) | public |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| getDefense() | Returns defense |
-| upgradeDefense(int bonusDefense) | Increases defense (throws error if negative) |
-| itemType() | Returns "Armor" |
-| toString() | [Armor] Name (ID: X, Value: Y, Defense: Z) |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| getDefense() | int | public | Returns defense |
+| upgradeDefense(int bonusDefense) | void | public | Increases defense (throws IllegalArgumentException if negative) |
+| itemType() | String | public | Returns "Armor" |
+| toString() | String | public | Returns [Armor] Name (ID: X, Value: Y, Defense: Z) |
 
 Step 4 — Implement Inventory
 File: src/main/java/za/co/wethinkcode/model/Inventory.java
 
-The Inventory stores all items owned by a player.
+The Inventory stores and manages player items safely.
 
-| Field | Type |
-|------|------|
-| items | List<Item> |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| items | List<Item> | private | List of items |
+
+Constructor
+| Signature | Access |
+|----------|--------|
+| Inventory() | public |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| addItem(Item) | Adds item |
-| removeItemById(int) | Removes item and returns true/false |
-| getItemById(int) | Returns item or null |
-| getItems() | Returns defensive copy |
-| getTotalValue() | Sum of item values |
-| getTotalItems() | Number of items |
-| containsItem(String) | Checks if item exists |
-| toString() | Returns formatted list |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| addItem(Item) | void | public | Adds item |
+| removeItemById(int) | boolean | public | Removes item by id |
+| getItemById(int) | Item | public | Returns item or null |
+| getItems() | List<Item> | public | Returns defensive copy |
+| getTotalValue() | int | public | Sum of item values |
+| getTotalItems() | int | public | Number of items |
+| containsItem(String) | boolean | public | Checks if item exists |
+| toString() | String | public | Returns formatted inventory |
 
 Step 5 — Implement Player
 File: src/main/java/za/co/wethinkcode/model/Player.java
 
 The Player represents a guild member.
 
-| Field | Type |
-|------|------|
-| id | int |
-| name | String |
-| level | int |
-| xp | int |
-| gold | int |
-| rank | PlayerRank |
-| inventory | Inventory |
-| equippedWeapon | Weapon |
-| equippedArmor | Armor |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| id | int | private | Player ID |
+| name | String | private | Player name |
+| level | int | private | Player level |
+| xp | int | private | Experience points |
+| gold | int | private | Currency |
+| rank | PlayerRank | private | Player rank |
+| inventory | Inventory | private | Player inventory |
+| equippedWeapon | Weapon | private | Equipped weapon |
+| equippedArmor | Armor | private | Equipped armor |
 
 Constructor
-| Signature |
-|----------|
-| Player(int id, String name) |
+| Signature | Access |
+|----------|--------|
+| Player(int id, String name) | public |
 
 Initial Values
 | Field | Value |
@@ -197,54 +199,59 @@ Initial Values
 | rank | BRONZE |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| addExperience(int) | Adds XP |
-| levelUp() | Increases level |
-| addGold(int) | Adds gold |
-| spendGold(int) | Deducts gold (throws error if insufficient) |
-| equipWeapon(Weapon) | Equips weapon |
-| equipArmor(Armor) | Equips armor |
-| inventory() | Returns inventory |
-| updateRank(PlayerRank) | Updates rank |
-| toString() | Returns player summary |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| addExperience(int) | void | public | Adds XP |
+| levelUp() | void | public | Increases level |
+| addGold(int) | void | public | Adds gold |
+| spendGold(int) | void | public | Deducts gold (throws error if insufficient) |
+| equipWeapon(Weapon) | void | public | Equip weapon |
+| equipArmor(Armor) | void | public | Equip armor |
+| inventory() | Inventory | public | Returns inventory |
+| updateRank(PlayerRank) | void | public | Updates rank |
+| toString() | String | public | Player summary |
 
 Step 6 — Implement GuildSystem
 File: src/main/java/za/co/wethinkcode/service/GuildSystem.java
 
 The GuildSystem manages members and match processing.
 
-| Field | Type |
-|------|------|
-| guildName | String |
-| members | List<GuildMember> |
-| matchQueue | List<Match> |
-| memberCounter | int |
+| Field | Type | Access | Description |
+|------|------|--------|-------------|
+| guildName | String | private | Guild name |
+| members | List<GuildMember> | private | Members list |
+| matchQueue | List<Match> | private | Match queue |
+| memberCounter | int | private | Counter |
+
+Constructor
+| Signature | Access |
+|----------|--------|
+| GuildSystem(String guildName) | public |
 
 Methods
-| Method | Description |
-|--------|-------------|
-| addMember(GuildMember) | Adds member |
-| removeMemberById(int) | Removes member |
-| getMemberById(int) | Returns member |
-| getAllMembers() | Returns unmodifiable list |
-| createMatch(int, int) | Creates match |
-| processNextMatch() | Processes next pending match |
-| matchQueue() | Returns queue |
-| guildName() | Returns name |
+| Method | Return Type | Access | Description |
+|--------|-------------|--------|-------------|
+| addMember(GuildMember) | void | public | Add member |
+| removeMemberById(int) | boolean | public | Remove member |
+| getMemberById(int) | GuildMember | public | Get member |
+| getAllMembers() | List<GuildMember> | public | Unmodifiable list |
+| createMatch(int,int) | Match | public | Create match |
+| processNextMatch() | Match | public | Process next match |
+| matchQueue() | List<Match> | public | Return queue |
+| guildName() | String | public | Return name |
 
 Abstract Method
-| Method |
-|--------|
-| resolveMatch(Match) |
+| Method | Access |
+|--------|--------|
+| resolveMatch(Match) | protected abstract |
 
 Step 7 — Implement PvP System
 File: PvPGuildSystem.java
 
 Rules:
 - Higher level wins
-- If levels are equal → member1 wins
-- Print:
+- If equal level → member1 wins
+- Output:
 PvP Match resolved: Winner is Member X
 
 Step 8 — Implement PvE System
@@ -253,11 +260,10 @@ File: PvEGuildSystem.java
 Rules:
 - Player vs enemy logic
 - Higher level wins
-- Print:
+- Output:
 PvE Match resolved: Winner is Member X
 
-NOTE:
-Before submission ensure project compiles:
+Before submission ensure:
 
 mvn clean compile test
 
