@@ -6,40 +6,63 @@ import java.util.*;
 
 public abstract class GuildSystem {
 
-    // TODO: declare private fields:
-    // guildName (String)
-    // members (List<GuildMember>)
-    // matchQueue (List<Match>)
-    // memberCounter (int)
+    private String guildName;
+    private List<Player> members;
+    private List<Match> matchQueue;
+    private int memberConter;
 
-    // TODO: constructor:
-    // GuildSystem(String guildName)
-    // - initialise lists
-    // - set memberCounter = 0
+    public GuildSystem(String guildName) {
+        this.guildName = guildName;
+        this.members = new ArrayList<>();
+        this.matchQueue = new ArrayList<>();
+        this.memberConter = 0;
+    }
 
     // =========================
     // CORE METHODS
     // =========================
 
-    // TODO: addMember(GuildMember member)
-    // - add to list
+    public void addMember(Player member){
+        this.members.add(member);
+    }
 
-    // TODO: removeMemberById(int id)
-    // - remove member if found
-    // - return true/false
+    public boolean removeMemberById(int id){
+        return members.removeIf(member -> member.getId() == id);
+    }
 
-    // TODO: getMemberById(int id)
+    public Player getMemberById(int id){
+        for (Player member: members){
+            if(member.getId() == id){
+                return member;
+            }
+        }
+        return null;
+    }
 
-    // TODO: getAllMembers()
+    public List<Player> getAllMembers(){
+        return Collections.unmodifiableList(this.members);
+    }
     // - return unmodifiable list
 
-    // TODO: createMatch(int memberId1, int memberId2)
-    // - increment counter
-    // - create Match object
-    // - add to queue
-    // - return Match
+    public Match createMatch(int memberId1, int memberId2){
+        memberConter ++;
+        Match match = new Match(this.memberConter,memberId1, memberId2);
+        matchQueue.add(match);
+        return  match;
+    }
 
-    // TODO: processNextMatch()
+    public Match processNextMatch(){
+        for (Match match : matchQueue){
+            if (match.getStatus() == Match.MatchStatus.PENDING){
+                match.updateStatus(Match.MatchStatus.IN_PROGRESS);
+                resolveMatch(match);
+                match.updateStatus(Match.MatchStatus.COMPLETED);
+            }
+
+            return match;
+        }
+        return null;
+    }
     // - find next PENDING match
     // - set IN_PROGRESS
     // - call abstract resolveMatch(match)
@@ -47,10 +70,14 @@ public abstract class GuildSystem {
     // - return match
     // - return null if none
 
-    // TODO: matchQueue()
+    public List<Match> matchQueue() {
+        return Collections.unmodifiableList(this.matchQueue);
+    }
     // - return unmodifiable list
 
-    // TODO: guildName()
+    public String guildName(){
+        return this.guildName;
+        }
     // - return name
 
     // =========================

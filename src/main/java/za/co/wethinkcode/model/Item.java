@@ -1,27 +1,51 @@
 package za.co.wethinkcode.model;
 
 public abstract class Item {
+    private int id;
+    private String name;
+    private int value;
 
-    // TODO: declare private fields:
-    // id (int)
-    // name (String)
-    // value (int)
+    public Item(String name, int id, int value) {
+        this.name = name;
+        this.id = id;
+        this.value = value;
+    }
 
-    // TODO: implement constructor:
-    // Item(int id, String name, int value)
+    public String getName() {
+        return name;
+    }
 
-    // TODO: implement getters:
-    // int getId()
-    // String getName()
-    // int getValue()
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    // TODO: implement updateValue(int newValue)
-    // Throws IllegalArgumentException if newValue < 0
+    public int getId() {
+        return id;
+    }
 
-    // TODO: implement abstract method:
-    // String itemType()
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    // TODO: override toString()
-    // Example:
-    // [Weapon] Sword (ID: 1, Value: 150)
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void updateValue(int newValue) {
+        if (newValue < 0) {
+        throw new IllegalArgumentException("The value cannot be negative");
+        }
+    }
+
+    public abstract String itemType();
+
+    @Override
+    public String toString(){
+        return "[" + itemType() + "]" + getName() + " (ID: " + getId() + ", Value: " + getValue() +")";
+    }
+
 }

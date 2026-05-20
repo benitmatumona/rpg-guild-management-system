@@ -14,7 +14,8 @@ public class GuildSystemTest {
     void testAddAndRetrieveMember() {
         PvPGuildSystem guild = new PvPGuildSystem("Knights");
 
-        GuildMember member = new GuildMember(1, "Arthur", 10);
+        // Replacing GuildMember with Player
+        Player member = new Player(1, "Arthur");
         guild.addMember(member);
 
         assertNotNull(guild.getMemberById(1));
@@ -25,7 +26,8 @@ public class GuildSystemTest {
     void testRemoveMember() {
         PvPGuildSystem guild = new PvPGuildSystem("Knights");
 
-        guild.addMember(new GuildMember(1, "Arthur", 10));
+        // Replacing GuildMember with Player
+        guild.addMember(new Player(1, "Arthur"));
 
         assertTrue(guild.removeMemberById(1));
         assertFalse(guild.removeMemberById(1));
@@ -35,8 +37,12 @@ public class GuildSystemTest {
     void testCreateMatch() {
         PvPGuildSystem guild = new PvPGuildSystem("Knights");
 
-        guild.addMember(new GuildMember(1, "Arthur", 10));
-        guild.addMember(new GuildMember(2, "Lancelot", 12));
+        // Creating Players and adding them to the guild
+        Player arthur = new Player(1, "Arthur");
+        Player lancelot = new Player(2, "Lancelot");
+
+        guild.addMember(arthur);
+        guild.addMember(lancelot);
 
         Match match = guild.createMatch(1, 2);
 
@@ -49,8 +55,16 @@ public class GuildSystemTest {
     void testProcessNextMatchPvP() {
         PvPGuildSystem guild = new PvPGuildSystem("Knights");
 
-        guild.addMember(new GuildMember(1, "Arthur", 10));
-        guild.addMember(new GuildMember(2, "Lancelot", 12));
+        Player arthur = new Player(1, "Arthur");
+        Player lancelot = new Player(2, "Lancelot");
+
+        // Optional: If you want to replicate specific levels from the old test,
+        // you can give them experience (e.g., 900 XP to reach Level 10)
+        arthur.addExperience(900);
+        lancelot.addExperience(1100);
+
+        guild.addMember(arthur);
+        guild.addMember(lancelot);
 
         guild.createMatch(1, 2);
 
@@ -72,10 +86,11 @@ public class GuildSystemTest {
     void testUnmodifiableMembers() {
         PvPGuildSystem guild = new PvPGuildSystem("Knights");
 
-        guild.addMember(new GuildMember(1, "Arthur", 10));
+        guild.addMember(new Player(1, "Arthur"));
 
+        // Verifying that trying to add directly to getAllMembers() throws an exception
         assertThrows(UnsupportedOperationException.class, () -> {
-            guild.getAllMembers().add(new GuildMember(2, "Fake", 1));
+            guild.getAllMembers().add(new Player(2, "Fake"));
         });
     }
 

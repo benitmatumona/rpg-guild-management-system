@@ -2,29 +2,40 @@
 
 package za.co.wethinkcode.service;
 
-import za.co.wethinkcode.model.Match;
+import za.co.wethinkcode.model.*;
+
+import za.co.wethinkcode.service.*;
 
 public class PvEGuildSystem extends GuildSystem {
 
-    // TODO: constructor
-    // PvEGuildSystem(String guildName)
-    // - call super(guildName)
+
+    public PvEGuildSystem(String guildName) {
+        super(guildName);
+    }
+
 
     // =========================
     // MATCH RESOLUTION RULES
     // =========================
 
-    // TODO: implement resolveMatch(Match match)
-    //
-    // PvE rules (simple simulation expected in tests):
-    //
-    // - Player 1 is the "player"
-    // - Player 2 is the "enemy"
-    //
-    // - Player always wins if their level >= enemy level
-    // - otherwise enemy wins
-    //
-    // - Update match with winnerId
-    // - Print:
-    //   "PvE Match resolved: Winner is Member <id>"
-}
+    @Override
+    public void resolveMatch(Match match){
+
+        Player player = getMemberById(match.getMemberId1());
+        Player enemy = getMemberById(match.getMemberId2());
+
+        if(player == null || enemy == null){
+            return;
+        }
+        int winnerId;
+        if (player.getLevel() >= enemy.getLevel()) {
+            winnerId = player.getId();
+        } else {
+            winnerId = enemy.getId();
+        }
+
+        match.setWinner(winnerId);
+
+        System.out.println("PvE Match resolved: Winner is Member " + winnerId);
+    }
+    }

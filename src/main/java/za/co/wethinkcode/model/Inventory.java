@@ -5,38 +5,67 @@ import java.util.List;
 
 public class Inventory {
 
-    // TODO: declare private fields:
-    // items (List<Item>)
+    private List<Item> items;
 
-    // TODO: implement constructor:
-    // Inventory()
-    // - initialise items as new ArrayList<>()
 
-    // TODO: implement addItem(Item item)
-    // - add item to list
 
-    // TODO: implement removeItemById(int itemId)
-    // - remove item with matching id
-    // - return true if removed, false otherwise
+    public Inventory() {
+        this.items = new ArrayList<>();
+    }
 
-    // TODO: implement getItemById(int itemId)
-    // - return Item if found, else null
+    public void addItem(Item item){
+        items.add(item);
+    }
 
-    // TODO: implement getItems()
-    // - return defensive copy of list
 
-    // TODO: implement getTotalValue()
-    // - sum of all item values
+    public boolean removeItemById(int itemId){
+        return items.removeIf(item -> item.getId() == itemId);
+    }
 
-    // TODO: implement getTotalItems()
-    // - return size of inventory
+    public Item  getItemById(int itemId){
+        for (Item item: items){
+            if (item.getId() == itemId){
+                return item;
+            }
+            }
+        return null;
+    }
 
-    // TODO: implement containsItem(String itemName)
-    // - return true if any item matches name
+    public List<Item> getItems(){
+        return new ArrayList<>(this.items);
+    }
 
-    // TODO: override toString()
-    // Example:
-    // Inventory:
-    // - Sword (ID: 1)
-    // - Shield (ID: 2)
-}
+    public int getTotalValue(){
+        int sum_values = 0;
+        for(Item item: items){
+            sum_values += item.getValue();
+        }
+        return sum_values;
+    }
+
+    public int getTotalItems(){
+        return items.size();
+    }
+
+    public boolean containsItem(String itemName){
+        for (Item item: items){
+            if(item.getName().equals(itemName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Inventory:\n");
+        if (items.isEmpty()) {
+            sb.append(" (empty)");
+        } else {
+            for (Item item : items) {
+                sb.append(" - ").append(item.getName()).append(" (ID: ").append(item.getId()).append(")\n");
+            }
+        }
+        return sb.toString().trim();
+    }
+    }
